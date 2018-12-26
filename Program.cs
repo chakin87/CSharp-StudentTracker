@@ -29,11 +29,11 @@ namespace School_Tracker
     {
         public Pupil()
         {
-            Console.WriteLine("Pupil #{0} created", Count++);
+            //Console.WriteLine("Pupil #{0} created", Count++);
         }
         public Pupil(string name, int grade, string birthday, string address, string phoneNumber)
         {
-            Console.WriteLine("Pupil #{0} created", Count++);
+            //Console.WriteLine("Pupil #{0} created", Count++);
             Name = name;
             Grade = grade;
             Birthday = birthday;
