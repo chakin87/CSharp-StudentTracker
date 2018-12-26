@@ -15,6 +15,8 @@ namespace School_Tracker
             payees.Add(new Teacher());
             payees.Add(new Teacher());
             payees.Add(new Principal());
+
+            Logger.Log("Payroll Started", 1, "Payroll");
         }
 
         List<IPayee> payees = new List<IPayee>();
@@ -25,6 +27,7 @@ namespace School_Tracker
             {
                 payee.Pay();
             }
+            Logger.Log("Payroll Completed!", 2, "Payroll");
         }
     }
 }
