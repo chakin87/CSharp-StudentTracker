@@ -19,11 +19,11 @@ namespace School_Tracker
     // to add more details about each Pupil
     class Member
     {
-        public string Name;
-        public School School;
-        public string Birthday;
-        public string Address;
-        protected string phoneNumber;
+        public string Name { get; set; }
+        public School School { get; set; }
+        public string Birthday { get; set; }
+        public string Address { get; set; }
+        public string PhoneNumber { get; set; }
     }
     class Pupil : Member
     {
@@ -41,26 +41,10 @@ namespace School_Tracker
             PhoneNumber = phoneNumber;
         }
 
-        static public int Count = 0;
+        static public int Count { get; set; } = 0;
 
 
-        public int Grade;
-        //  below is a "Property" a way to set private variable
-        // without using a setter function. (Replaces setter function)
-        public string PhoneNumber
-        {
-            set { phoneNumber = value; }
-        }
-        // setter function (not needed)
-        public void SetPhoneNumber(string phoneNumber)
-        {
-            this.phoneNumber = phoneNumber;
-        }
-        public string GetPhoneNumber()
-        {
-            return phoneNumber;
-        }
-
+        public int Grade { get; set; }
 
     }
 
@@ -74,6 +58,8 @@ namespace School_Tracker
 
         static void Main(string[] args)
         {
+            Logger.Log("Tracker started", 1, "SchoolTracker");
+
             PayRoll payroll = new PayRoll();
             payroll.PayAll();
 
@@ -97,7 +83,7 @@ namespace School_Tracker
 
                     p.Address = Util.Console.Ask("Student Address: ");
                     
-                    p.SetPhoneNumber(Util.Console.Ask("Student Phone Number: "));
+                    p.PhoneNumber = Util.Console.Ask("Student Phone Number: ");
 
                     students.Add(p);
 
@@ -120,6 +106,8 @@ namespace School_Tracker
 
             }
 
+            ShowGrade("Tom");
+
             Console.WriteLine("\n");
             Console.WriteLine("---------------------------------------------------------------------------------------");
             Console.WriteLine("    Student Name    | Grade | Birthday |         Address         |   Phone Number   | ");
@@ -130,7 +118,7 @@ namespace School_Tracker
             {
                 // formatting below lines up well in the console
                 Console.WriteLine(String.Format("{0,-19} | {1,-5} | {2,-8} | {3,-23} | {4,-16} |",
-                    student.Name, student.Grade, student.Birthday, student.Address, student.GetPhoneNumber()));
+                    student.Name, student.Grade, student.Birthday, student.Address, student.PhoneNumber));
             }
 
             Console.WriteLine("---------------------------------------------------------------------------------------");
@@ -164,6 +152,18 @@ namespace School_Tracker
                     
                 }
             }
+        }
+
+        static void ShowGrade(string name)
+        {
+            var found = students.Find(student => student.Name == name);
+            Console.WriteLine("{0}'s Grade: {1}", found.Name, found.Grade);
+        }
+        //   The above lambda in the .Find parameter does exactly the same
+        // as the predicate below.
+        static bool predicate(Pupil student)
+        {
+            return (student.Name == "Jim");     
         }
     }
 }
