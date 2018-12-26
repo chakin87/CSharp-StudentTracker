@@ -20,7 +20,7 @@ namespace School_Tracker
     class Member
     {
         public string Name;
-        
+        public School School;
         public string Birthday;
         public string Address;
         protected string phoneNumber;
@@ -74,42 +74,63 @@ namespace School_Tracker
             return phoneNumber;
         }
     }
+    enum School
+    {
+        Hogwarts = 0, Harvard = 1, MIT = 2
+    }
     class Program
     {
+        static List<Pupil> students = new List<Pupil>();
+
         static void Main(string[] args)
         {
-            var students = new List<Pupil>();
             var isMoreStudents = true;
 
             while (isMoreStudents)
             {
-                var p = new Pupil();
+                try
+                { 
+                    var p = new Pupil();
 
-                //   Using Util.Console.Ask, we cut the lines of code
-                // in half.
-                p.Name = Util.Console.Ask("Student Name: ");
+                    p.Name = Util.Console.Ask("Student Name: ");
 
-                p.Grade = int.Parse(Util.Console.Ask("Student Grade: "));
+                    p.School = (School) Util.Console.AskInt("School Name (Use the corresponding number):\n"
+                        +"  0: Hogwarts (School of Wizardry and spells!)\n"
+                        +"  1: Harvard University\n  2: MIT\n");
 
-                p.Birthday = Util.Console.Ask("Student Birthday (dd/mm/yy): ");
+                    p.Grade = Util.Console.AskInt("Student Grade: ");
 
-                p.Address = Util.Console.Ask("Student Address: ");
-                
-                p.SetPhoneNumber(Util.Console.Ask("Student Phone Number: "));
+                    p.Birthday = Util.Console.Ask("Student Birthday (dd/mm/yy): ");
 
-                students.Add(p);
+                    p.Address = Util.Console.Ask("Student Address: ");
+                    
+                    p.SetPhoneNumber(Util.Console.Ask("Student Phone Number: "));
 
-                if (Util.Console.Ask("Add another student (y/n): ") != "y")
+                    students.Add(p);
+
+
+                    if (Util.Console.Ask("Add another student (y/n): ") != "y")
+                    {
+                        isMoreStudents = false;
+                    }
+                }
+                catch (FormatException msg)
                 {
-                    isMoreStudents = false;
+                    Console.WriteLine(msg);//this gives detailed error message
+                  //   or we could use -->  Console.WriteLine(msg.Message); 
+                  // for the exact message in Util --> "Input was not a number! Error Util #843-2"
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Error Processing Student #8348-23-a-1");
                 }
 
             }
 
             Console.WriteLine("\n");
-            Console.WriteLine("--------------------------------------------------------------------------------------");
+            Console.WriteLine("---------------------------------------------------------------------------------------");
             Console.WriteLine("    Student Name    | Grade | Birthday |         Address         |   Phone Number   | ");
-            Console.WriteLine("--------------------------------------------------------------------------------------");
+            Console.WriteLine("---------------------------------------------------------------------------------------");
 
             //   'For each' <span style='bold'>student</span> in List, students, Console.WriteLine...
             foreach (var student in students)
@@ -119,7 +140,9 @@ namespace School_Tracker
                     student.Name, student.Grade, student.Birthday, student.Address, student.GetPhoneNumber()));
             }
 
-            Console.WriteLine("--------------------------------------------------------------------------------------");
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+
+            Exports();
 
             //stops the console from closing automatically
             Console.ReadLine();
@@ -128,6 +151,26 @@ namespace School_Tracker
         {
             var importedStudent = new Pupil("Jenny", 86, "birthday", "address", "123456");
             Console.WriteLine(importedStudent.Name);
+        }
+        
+        static void Exports()
+        {
+            foreach (var student in students)
+            {
+                switch (student.School)
+                {
+                    case School.Hogwarts:
+                        Console.WriteLine("Exporting to Hogwarts");
+                        break;
+                    case School.Harvard:
+                        Console.WriteLine("Exporting to Harvard");
+                        break;
+                    case School.MIT:
+                        Console.WriteLine("Exporting to MIT");
+                        break;
+                    
+                }
+            }
         }
     }
 }
