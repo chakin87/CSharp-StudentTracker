@@ -63,17 +63,7 @@ namespace School_Tracker
 
 
     }
-    class Teacher : Member
-    {
-        public string PhoneNumber
-        {
-            set { phoneNumber = value; }
-        }
-        public string GetPhoneNumber()
-        {
-            return phoneNumber;
-        }
-    }
+
     enum School
     {
         Hogwarts = 0, Harvard = 1, MIT = 2
@@ -84,6 +74,9 @@ namespace School_Tracker
 
         static void Main(string[] args)
         {
+            PayRoll payroll = new PayRoll();
+            payroll.PayAll();
+
             var isMoreStudents = true;
 
             while (isMoreStudents)
